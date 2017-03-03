@@ -1,13 +1,27 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		ArrayList<String> a = new ArrayList<String>();
-		a.addAll(new ArrayList<String>());
+		InputCorrecting InputCorrecting = new InputCorrecting();
+		Scanner console = new Scanner(System.in);
+		String userInput="";
 		
+		System.out.println("Please enter yes or no");
+		System.out.println(InputCorrecting.correctFor("B","Asshole enter fucking yes or no",false));
+		System.out.println("Please enter a number");
+		System.out.println(InputCorrecting.correctFor("#","Nice try",false));
+		System.out.println("Please enter a string");
+		System.out.println(InputCorrecting.correctFor("@",":(",false));
+		System.out.println("Please enter a number between 3 and 16");
+		System.out.println(InputCorrecting.correctFor(3, 16,"You can't have that many characters, you can have between 3 and 16 players",false));
+		System.out.println("Please enter a direction");
+		System.out.println(InputCorrecting.correctFor("^","?",false));
+		
+			
 		
 	}
 

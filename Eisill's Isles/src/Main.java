@@ -20,6 +20,7 @@ public class Main {
 		//Classes
 		Player Player;
 		Group Group = new Group();
+		InputCorrecting InputCorrecting = new InputCorrecting();
 		
 		//Booleans
 		boolean Endgame=false;
@@ -48,23 +49,10 @@ public class Main {
 		ExamineAbles.add("Meadow");
 		
 		//initializes players
-		System.out.println("How many players are there?");
-		userInput=console.next();
-		while(badValue==true){
-		try{
-		if(Integer.parseInt(userInput)<=8&&Integer.parseInt(userInput)>=minPlayers){	
-		totalPlayers=Integer.parseInt(userInput);
-		badValue=false;
-		}else{
-			System.out.println("You can't have that many players, the max amount of players is "+maxPlayers+" and the min is "+minPlayers);
-			userInput=console.next();
-		}
-		} catch (NumberFormatException nfe) {
-			System.out.println("Please type a number");
-			userInput=console.next();  
-			}
-		}
-		badValue=true;
+		System.out.println("How many players are there?");	
+		totalPlayers=Integer.parseInt(InputCorrecting.correctFor(1,8,"Please enter a number between 1 and 8",false));
+		
+		
 		System.out.println("There are "+totalPlayers+" players awesome!");	
 		
 		System.out.println("What are their names?");
@@ -116,56 +104,101 @@ public class Main {
 			userInput=console.next();
 			while(badValue==true){
 				try{
-				if(Integer.parseInt(userInput)<=Group.getNumberOfGroups()&&Integer.parseInt(userInput)>0){	
-				chosenGroup=Integer.parseInt(userInput);
+				if(Integer.parseInt(userInput)<=Group.NumberOfGroups()&&Integer.parseInt(userInput)>0){	
+				chosenGroup=Integer.parseInt(userInput)-1;
 				badValue=false;
 				}else{
 					System.out.println("There is no group "+Integer.parseInt(userInput));
 					userInput=console.next();
 				}
+				
+				if(userInput.equals("cancel")){
+					badValue=false;
+				}
+				
 				} catch (NumberFormatException nfe) {
 					System.out.println("Please type a number");
 					userInput=console.next();  
 					}
 				}
 				badValue=true;
+				
+				if(!userInput.equals("cancel")){
+					
+				
+				
+				//Group.addGroup();//if number of groups == 1, if there are more than 1 groups ask the user if they
+				//they would like to make a new group to put these players in
+				if(Group.NumberOfGroups()<=1){
+					Group.addGroup();
+				}else{
+					System.out.println("Would you like to move these players to a existing group?");
+					
+					System.out.println("Would you like to make a new group?");
+					
+					System.out.println("Would you like to stop trying to make a new group?");
+				}
+				
+				if(!userInput.equals("cancel")){
+				
 			System.out.println("Who will be forming a new group?");
-			Group.addGroup();
-			Group.printGroup(Integer.parseInt(userInput)-1);
+			
+			Group.printGroupNumbered(Integer.parseInt(userInput)-1);
 			while(badValue==true){/////
 				userInput=console.next();
 				
 			try{
 				
-				if(Group.groupContains(userInput, chosenGroup-1)==true){
+				if(Group.groupContains(userInput, chosenGroup)==true){
 					System.out.println(userInput+" will split from the group\n"
 							+ "Would you like to split more players?");
+					System.out.println("name success");
 					//badValue=false;
-				}else{
-					System.out.println("Bad input");
+				}else
+				
+				if(Integer.parseInt(userInput)>0&&Integer.parseInt(userInput)<=Group.groupSize(chosenGroup)){
+					System.out.println(Group.groupPlayerAccess(chosenGroup, Integer.parseInt(userInput))+" will split from the group\n"
+							+ "Would you like to split more players?");
+					System.out.println("number success");
+				}else if(!userInput.equals("cancel")){}
+				
+				if(userInput.equals("cancel")){
+					badValue=false;
 				}
 				
-			} catch (NumberFormatException nfe) {
-				System.out.println("Bad input");
+				//if(userInput.equals("yes")||userInput.equals("y")){badValue=false;}
 				
+			} catch (NumberFormatException nfe) {
+				//Nothings supposed to be here by the by
 				
 			}
 				
-			}/////
 			
+			}/////while loop
+			badValue=true;
+			
+				}//Cancel quit
+				}//Cancel quit
+			
+		}//end of function
+		
+		if(userInput.equals("aG")){
+			Group.addGroup();
 		}
 		
 		if(userInput.equals("moveAll")||userInput.equals("mA")){
-		System.out.println("Where would you like to move? (invalid inputs will do nothing\n"
+		System.out.println("Where would you like to move?\n"
 				+ "north(n)\n"
 				+ "west(w)\n"
 				+ "east(e)\n"
 				+ "south(s)\n");
-		userInput=console.next();
+		
+		if(!InputCorrecting.correctFor("^","?",true).equals("cancel")){
 		for(int i=0;i<totalPlayers;i++){
-		((Player) players.get(i)).moveAll(userInput);
+		((Player) players.get(i)).moveAll(InputCorrecting.getCarryValue());
 		}
 		playerLocations(players,totalPlayers);
+		}
 		}
 		
 		
@@ -176,6 +209,7 @@ public class Main {
 		
 		
 		if(userInput.equals("examine")||userInput.equals("Examine")||userInput.equals("ex")||userInput.equals("EX")){
+			while(badValue==true){
 			System.out.println("What do you want to examine?");
 			userInput=console.next();
 			if(ExamineAbles.contains(userInput)){
@@ -186,6 +220,16 @@ public class Main {
 			}else{
 				System.out.println("You tried examining "+userInput+" but that can't be examined or does not exist");
 			}
+				System.out.println("Would you like to continue examining?");
+				if(InputCorrecting.correctFor("B","?",false).equals("false")){
+					badValue=false;
+				}
+			}
+			badValue=true;
+		}
+		
+		if(userInput.equals("examine")||userInput.equals("Examine")||userInput.equals("ex")||userInput.equals("EX")){
+			Examine(userInput,entireFileText,console,ExamineAbles);
 		}
 		
 		
@@ -238,8 +282,26 @@ public class Main {
 		System.out.println(((Player) players.get(i)).getPlayerName());
 		System.out.println();
 		}
+		}
 		
-	}
+		public static void Examine(String x,String entireFileText,Scanner console,ArrayList ExamineAbles){
+			int startIndex;
+			int endIndex;
+			//System.out.println(entireFileText.substring(startIndex,endIndex));
+			System.out.println("What do you want to examine?");
+			x=console.next();
+			if(ExamineAbles.contains(x)){
+				startIndex=entireFileText.indexOf(x+":");
+				endIndex=entireFileText.substring(startIndex).indexOf("\\")+startIndex;
+				//System.out.println("Start index: "+startIndex+" End index: "+endIndex);
+				System.out.println(entireFileText.substring(startIndex,endIndex));
+			}else{
+				System.out.println("You tried examining "+x+" but that can't be examined or does not exist");
+				//if(InputCorrecting.correctFor("B","?",false).equals("true")){
+				Examine(x,entireFileText,console,ExamineAbles);
+				//}
+			}
+		}
 	
 	
 	
