@@ -50,23 +50,6 @@ public class Player {
 		}
 	}
 	
-	public void moveAll(String x){
-		if(x.equalsIgnoreCase("north")||x.equalsIgnoreCase("n")){
-			playerY--;
-		}
-		
-		if(x.equalsIgnoreCase("south")||x.equalsIgnoreCase("s")){
-			playerY++;
-		}
-		
-		if(x.equalsIgnoreCase("west")||x.equalsIgnoreCase("w")){
-			playerX--;
-		}
-		
-		if(x.equalsIgnoreCase("east")||x.equalsIgnoreCase("e")){
-			playerX++;
-		}
-	}
 	
 	public void setHealth(int x){
 		this.Health=x;

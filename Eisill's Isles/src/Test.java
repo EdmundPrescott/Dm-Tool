@@ -9,7 +9,7 @@ public class Test {
 		InputCorrecting InputCorrecting = new InputCorrecting();
 		Scanner console = new Scanner(System.in);
 		String userInput="";
-		boolean stop=false;
+		boolean stop=true;
 		
 		while(stop==false){	
 		System.out.println("Please enter yes or no");
@@ -24,7 +24,9 @@ public class Test {
 		System.out.println(InputCorrecting.correctFor("^","?",false));
 	    }
 		
-		
+		for(int i=0;i<1;i++){
+			System.out.println(i);
+		}
 			
 			
 		

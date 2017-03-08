@@ -12,7 +12,7 @@ public class Group {
 		this.Players.add(player);
 	}
 	
-	public void removePlayer(String player){
+	public void removePlayer(Player player){
 		this.Players.remove(player);
 	}
 	
@@ -29,6 +29,7 @@ public class Group {
 			return this.Players.get(i);
 		}
 		}
+		System.out.println("Player not found");
 		return null;
 	}
 	
@@ -45,7 +46,9 @@ public class Group {
 	}
 	
 	public void moveAll(String x){
-		
+		for(int i=0;i<this.Players.size();i++){
+			this.Players.get(i).move(x);
+		}
 	}
 	
 	public boolean groupContains(String player){

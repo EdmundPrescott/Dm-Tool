@@ -204,6 +204,10 @@ public class InputCorrecting {
 		return carryValue;
 	}
 	
+	public static void setCarryValue(){
+		carryValue="north";
+	}
+	
 	public void printExamineAbles(){
 		for(int i=0;i<ExamineAbles.size();i++){
 			System.out.println(ExamineAbles.get(i));
