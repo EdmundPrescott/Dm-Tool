@@ -1,67 +1,63 @@
 import java.util.ArrayList;
 
 public class Group {
-	private ArrayList<ArrayList> Groups = new ArrayList<ArrayList>();
+	private int groupNumber;
+	private ArrayList<Player> Players = new ArrayList<Player>();
 	
-	
-	public Group(){
-	 this.Groups.add(new ArrayList<String>());
-	 this.Groups.get(0).add("Group 1");
+	public Group(int x){
+		this.groupNumber=x+1;
 	}
 	
-	public void addToGroup(String x,int y){
-		this.Groups.get(y).add(x);
-		
+	public void addPlayer(Player player){
+		this.Players.add(player);
 	}
 	
-	public void addGroup(){
-		this.Groups.add(new ArrayList<String>());
-		this.Groups.get(this.Groups.size()-1).add("Group "+(Integer.parseInt(((String) this.Groups.get(this.Groups.size()-2).get(0)).substring(6))+1));
-		
-		
+	public void removePlayer(String player){
+		this.Players.remove(player);
 	}
 	
-	public void printGroups(){
-		for(int i=0;i<this.Groups.size();i++){
-			//System.out.println("Group "+(i+1)+":");
-			System.out.println();
-			for(int j=0;j<this.Groups.get(i).size();j++){
-				System.out.println(this.Groups.get(i).get(j));
-			}
+	public Player getPlayer(int x){
+		if(x<=this.Players.size()&&x>=0){
+		return this.Players.get(x);
+		}
+		return null;
+	}
+	
+	public Player getPlayer(String player){
+		for(int i=0;i<this.Players.size();i++){
+		if(this.Players.get(i).getPlayerName().equals(player)){
+			return this.Players.get(i);
+		}
+		}
+		return null;
+	}
+	
+	public void printGroup(){
+		for(int i=0;i<this.Players.size();i++){
+			System.out.println(this.Players.get(i).getPlayerName());
 		}
 	}
 	
-	public void printGroup(int x){
-		for(int i=0;i<this.Groups.get(x).size();i++){
-			System.out.println(this.Groups.get(x).get(i));
+	public void printNumberedGroup(){
+		for(int i=0;i<this.Players.size();i++){
+			System.out.println((i+1)+". "+this.Players.get(i).getPlayerName());
 		}
 	}
 	
-	public void printGroupNumbered(int x){
-		for(int i=1;i<this.Groups.get(x).size();i++){
-			System.out.println((i)+". "+this.Groups.get(x).get(i));
-		}
-	}
-	
-	public String groupPlayerAccess(int x,int y){
-		return (String) this.Groups.get(x).get(y);
-	}
-	
-	public boolean groupContains(String x, int y){
-			if(this.Groups.get(y).contains(x)==true){
-				return true;
-			}else{
-				return false;
-			}
+	public void moveAll(String x){
 		
 	}
 	
-	public int groupSize(int x){
-		return this.Groups.get(x).size();
+	public boolean groupContains(String player){
+		if(this.Players.contains(player)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
-	public int NumberOfGroups(){
-		return this.Groups.size();
+	public int groupSize(){
+		return this.Players.size();
 	}
 	
 }

@@ -33,37 +33,37 @@ public class Player {
 	}
 	
 	public void move(String x){
-		if(x.equals("north")||x.equals("North")||x.equals("n")||x.equals("N")){
+		if(x.equalsIgnoreCase("north")||x.equalsIgnoreCase("n")){
 			this.playerY--;
 		}
 		
-		if(x.equals("south")||x.equals("South")||x.equals("s")||x.equals("S")){
+		if(x.equalsIgnoreCase("south")||x.equalsIgnoreCase("s")){
 			this.playerY++;
 		}
 		
-		if(x.equals("west")||x.equals("West")||x.equals("w")||x.equals("W")){
+		if(x.equalsIgnoreCase("west")||x.equalsIgnoreCase("w")){
 			this.playerX--;
 		}
 		
-		if(x.equals("east")||x.equals("East")||x.equals("e")||x.equals("E")){
+		if(x.equalsIgnoreCase("east")||x.equalsIgnoreCase("e")){
 			this.playerX++;
 		}
 	}
 	
 	public void moveAll(String x){
-		if(x.equals("north")||x.equals("North")||x.equals("n")||x.equals("N")){
+		if(x.equalsIgnoreCase("north")||x.equalsIgnoreCase("n")){
 			playerY--;
 		}
 		
-		if(x.equals("south")||x.equals("South")||x.equals("s")||x.equals("S")){
+		if(x.equalsIgnoreCase("south")||x.equalsIgnoreCase("s")){
 			playerY++;
 		}
 		
-		if(x.equals("west")||x.equals("West")||x.equals("w")||x.equals("W")){
+		if(x.equalsIgnoreCase("west")||x.equalsIgnoreCase("w")){
 			playerX--;
 		}
 		
-		if(x.equals("east")||x.equals("East")||x.equals("e")||x.equals("E")){
+		if(x.equalsIgnoreCase("east")||x.equalsIgnoreCase("e")){
 			playerX++;
 		}
 	}

@@ -3,159 +3,187 @@ import java.util.Scanner;
 
 public class InputCorrecting {
 
-	private boolean badValue=true;
-	private boolean cancel=false;
-	private Scanner console=new Scanner(System.in);
-	private String userInput="";
-	private String carryValue;
+	private static boolean badValue=true;
+	private static Scanner console=new Scanner(System.in);
+	private static String userInput;
+	private static String carryValue;
 	
-	ArrayList<String> DirectionInputs = new ArrayList<String>() {{
+	
+	private static ArrayList<String> DirectionInputs = new ArrayList<String>() {{
 	    add("n");
-	    add("N");
 	    add("north");
-	    add("North");
 	    add("w");
-	    add("W");
 	    add("west");
-	    add("West");
 	    add("e");
-	    add("E");
 	    add("east");
-	    add("East");
 	    add("s");
-	    add("S");
 	    add("south");
-	    add("South");
 	}};
-	ArrayList<String> BooleanInputs = new ArrayList<String>() {{
-		add("y");
-		add("Y");
-		add("yes");
-		add("Yes");
-		add("yeah");
-		add("yee");
+	private static ArrayList<String> BooleanNoInputs = new ArrayList<String>() {{
 		add("n");
-		add("N");
 		add("no");
-		add("No");
 		add("naw");
 		add("nope");
 	}};
 	
+	private static ArrayList<String> BooleanYesInputs = new ArrayList<String>() {{
+		add("y");
+		add("yes");
+		add("yeah");
+		add("yee");
+	}};
+	
+	private static ArrayList<String> ExamineAbles = new ArrayList<String>() {{
+		add("Bella");
+		add("Shop");
+		add("Meadow");
+		add("Apex Beast");
+	}};
 	
 	public InputCorrecting(){
-		
+		ExamineAbles.sort(null);
 	}
 	
-	public String correctFor(String x,String errorCode,boolean cancelReady){
-		if(x.equals("@")){
-			while(this.badValue==true){
-				this.userInput=this.console.next();
-				if(cancelReady==true&&this.userInput.equals("cancel")){
-					return this.userInput;
+	public static String correctFor(String typeCheck,String errorCode,boolean cancelReady){
+		if(typeCheck.equals("@")){
+			while(badValue==true){
+				userInput=console.next();
+				if(cancelReady==true&&userInput.equalsIgnoreCase("cancel")){
+					carryValue="cancel";
+					System.out.println("Cancelled");
+					return userInput;
 				}
 				try{
-					Integer.parseInt(this.userInput);
+					Integer.parseInt(userInput);
 					if(errorCode.equals("?")){
 					System.out.println("Please do not enter numbers");
 					}else{
 						System.out.println(errorCode);
 					}
 				}catch(Exception e){
-					this.carryValue=this.userInput;
-					return this.userInput;
+					carryValue=userInput;
+					return userInput;
 				}
-				
 			}
-			this.badValue=false;
+			badValue=false;
 		}
 		
-        if(x.equals("#")){
-        	while(this.badValue==true){
-        		this.userInput=this.console.next();
-        		if(cancelReady==true&&this.userInput.equals("cancel")){
-					return this.userInput;
+        if(typeCheck.equals("#")){
+        	while(badValue==true){
+        		userInput=console.next();
+        		if(cancelReady==true&&userInput.equalsIgnoreCase("cancel")){
+        			carryValue="cancel";
+        			System.out.println("Cancelled");
+					return userInput;
 				}
 				try{
-					Integer.parseInt(this.userInput);
-					this.carryValue=this.userInput;
-					return this.userInput;
+					Integer.parseInt(userInput);
+					carryValue=userInput;
+					return userInput;
 				}catch(Exception e){
 					if(errorCode.equals("?")){
 						System.out.println("Please enter a number");
 						}else{
 							System.out.println(errorCode);
-						}
-					
+						}	
 				}
 			}
-        	this.badValue=false;
+        	badValue=false;
 		}
 		
-        if(x.equals("B")){
-        	while(this.badValue==true){
-        		this.userInput=this.console.next();
-        		if(cancelReady==true&&this.userInput.equals("cancel")){
-					return this.userInput;
+        if(typeCheck.equals("B")){
+        	while(badValue==true){
+        		userInput=console.next();
+        		console.nextLine();
+        		if(cancelReady==true&&userInput.equalsIgnoreCase("cancel")){
+        			carryValue="cancel";
+        			System.out.println("Cancelled");
+					return userInput;
 				}
-				if(this.BooleanInputs.contains(this.userInput)){
-					this.carryValue=this.userInput;
-					if(this.userInput.equals("y")||this.userInput.equals("Y")||this.userInput.equals("yes")||this.userInput.equals("Yes")
-							||this.userInput.equals("yeah")||this.userInput.equals("yee")){
+					
+					for(int i=0;i<BooleanYesInputs.size();i++){
+					if(userInput.equalsIgnoreCase(BooleanYesInputs.get(i))){
+						carryValue="true";
 						return "true";
-					}
+					}}
 					
-					if(this.userInput.equals("n")||this.userInput.equals("N")||this.userInput.equals("no")||this.userInput.equals("No")
-							||this.userInput.equals("nope")||this.userInput.equals("naw")){
+					for(int i=0;i<BooleanNoInputs.size();i++){
+					if(userInput.equalsIgnoreCase(BooleanNoInputs.get(i))){
+						carryValue="false";
 						return "false";
-					}
+					}}
 					
-				}else{
 					if(errorCode.equals("?")){
 						System.out.println("Please enter yes or no");
 						}else{
 							System.out.println(errorCode);
 						}
-					
-				}
 			}
-        	this.badValue=false;
+        	badValue=false;
 		}
         
-        if(x.equals("^")){
-        	while(this.badValue==true){
-        		this.userInput=this.console.next();
-        		if(cancelReady==true&&this.userInput.equals("cancel")){
-					return this.userInput;
+        if(typeCheck.equals("^")){
+        	while(badValue==true){
+        		userInput=console.next();
+        		if(cancelReady==true&&userInput.equalsIgnoreCase("cancel")){
+        			carryValue="cancel";
+        			System.out.println("Cancelled");
+					return userInput;
 				}
-				if(this.DirectionInputs.contains(this.userInput)){
-					this.carryValue=this.userInput;
-					return this.userInput;
-				}else{
-					if(errorCode.equals("?")){
-						System.out.println("Please enter a direction");
-						}else{
-							System.out.println(errorCode);
-						}
-					
+        		for(int i=0;i<DirectionInputs.size();i++){
+				if(userInput.equalsIgnoreCase(DirectionInputs.get(i))){//
+					carryValue=userInput;
+					return userInput;}
+				}
+        		if(errorCode.equals("?")){
+					System.out.println("Please enter a direction");
+					}else{
+						System.out.println(errorCode);
 				}
 			}
-        	this.badValue=false;
+        	badValue=false;
+		}
+        
+        if(typeCheck.equals("E")){
+        	while(badValue==true){
+        		userInput=console.nextLine();
+        		if(!userInput.equals("")){
+        		if(cancelReady==true&&userInput.equalsIgnoreCase("cancel")){
+        			carryValue="cancel";
+        			System.out.println("Cancelled");
+					return userInput;
+				}
+        		for(int i=0;i<ExamineAbles.size();i++){
+				if(userInput.equalsIgnoreCase(ExamineAbles.get(i))){//
+					carryValue=ExamineAbles.get(i);
+					return ExamineAbles.get(i);
+					}
+				}
+        		if(errorCode.equals("?")){
+					System.out.println("Please enter a valid thing to examine");
+					}else{
+						System.out.println(errorCode);
+				}
+        		}
+			}
+        	badValue=false;
 		}
         
         return "Error correcting type invalid";
 	}
 	
-	public String correctFor(int a,int b,String errorCode,boolean cancelReady){
-        	while(this.badValue==true){
-        		this.userInput=this.console.next();
-        		if(cancelReady==true&&this.userInput.equals("cancel")){
-					return this.userInput;
+	public static String correctFor(int a,int b,String errorCode,boolean cancelReady){
+        	while(badValue==true){
+        		userInput=console.next();
+        		if(cancelReady==true&&userInput.equalsIgnoreCase("cancel")){
+        			carryValue="cancel";
+        			System.out.println("Cancelled");
+					return userInput;
 				}
 				try{
-					if(Integer.parseInt(this.userInput)>=a&&Integer.parseInt(this.userInput)<=b){
-						this.carryValue=this.userInput;
-						return this.userInput;
+					if(Integer.parseInt(userInput)>=a&&Integer.parseInt(userInput)<=b){
+						carryValue=userInput;
+						return userInput;
 					}else{
 						System.out.println("That number isn't between "+a+" and "+b);
 					}
@@ -168,17 +196,18 @@ public class InputCorrecting {
 					
 				}
 			}
-        	this.badValue=false;
-        
-        return "Error correcting type invalid";
+        	badValue=false;
+        	return "If you're seeing this you've done something wrong";
 	}
 	
-	public void newThing(String x,Scanner console){
-		
+	public static String getCarryValue(){
+		return carryValue;
 	}
 	
-	public String getCarryValue(){
-		return this.carryValue;
+	public void printExamineAbles(){
+		for(int i=0;i<ExamineAbles.size();i++){
+			System.out.println(ExamineAbles.get(i));
+		}
 	}
 	
 }

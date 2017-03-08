@@ -1,4 +1,6 @@
 Lore of the land
 /Shop:A musty place but woren isn't broken, the shopkeep sees you but doesn't seem to pleased to see you.\
 /Meadow: It's a lovely place full of grass.\
+/Bella: The most wonderful and lovely babe there is <3.\
+/Apex Beast: RWAAARRRRWRA!.\
 /end
