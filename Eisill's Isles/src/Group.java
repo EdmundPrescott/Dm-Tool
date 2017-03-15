@@ -8,12 +8,30 @@ public class Group {
 		this.groupNumber=x+1;
 	}
 	
+	public int getGroupNumber(){
+		return this.groupNumber;
+	}
+	
+	public void setGroupNumber(int x){
+		this.groupNumber=x;
+	}
+	
 	public void addPlayer(Player player){
 		this.Players.add(player);
 	}
 	
 	public void removePlayer(Player player){
 		this.Players.remove(player);
+	}
+	
+	public void addPlayers(ArrayList chosenPlayers){
+		this.Players.addAll(chosenPlayers);
+	}
+	
+	public void removePlayers(ArrayList chosenPlayers){
+		for(int i=0;i<chosenPlayers.size();i++){
+		this.Players.remove(chosenPlayers.get(i));
+		}
 	}
 	
 	public Player getPlayer(int x){

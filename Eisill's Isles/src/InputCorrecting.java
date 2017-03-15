@@ -34,10 +34,18 @@ public class InputCorrecting {
 	}};
 	
 	private static ArrayList<String> ExamineAbles = new ArrayList<String>() {{
-		add("Bella");
-		add("Shop");
-		add("Meadow");
-		add("Apex Beast");
+		
+	}};
+	
+	private static ArrayList<String> Races = new ArrayList<String>() {{
+		add("Dwarve");//Dwarves 
+		add("Elf");//Elves
+		add("Gnome");//Gnomes
+		add("Half-Elf");//Half-elves
+		add("Half-Orc");//Half-orcs
+		add("Halfling");//Halflings
+		add("Human");//Humans
+		//add("");
 	}};
 	
 	public InputCorrecting(){
@@ -169,6 +177,28 @@ public class InputCorrecting {
         	badValue=false;
 		}
         
+        if(typeCheck.equals("R")){
+        	while(badValue==true){
+        		userInput=console.next();
+        		if(cancelReady==true&&userInput.equalsIgnoreCase("cancel")){
+        			carryValue="cancel";
+        			System.out.println("Cancelled");
+					return userInput;
+				}
+        		for(int i=0;i<Races.size();i++){
+        			if(userInput.equalsIgnoreCase(Races.get(i))){//
+    					carryValue=Races.get(i);
+    					return Races.get(i);}
+    				}
+        		if(errorCode.equals("?")){
+					System.out.println("Please enter a race");
+					}else{
+						System.out.println(errorCode);
+				}
+			}
+        	badValue=false;
+		}
+        
         return "Error correcting type invalid";
 	}
 	
@@ -206,6 +236,10 @@ public class InputCorrecting {
 	
 	public static void setCarryValue(){
 		carryValue="north";
+	}
+	
+	public static void clearCarryValue(){
+		carryValue="cleared";
 	}
 	
 	public void printExamineAbles(){

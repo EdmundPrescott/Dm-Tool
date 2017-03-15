@@ -1,11 +1,27 @@
 import java.util.ArrayList;
 
 public class Player {
-
+	//make a file with character details?
 	private String Name;
+	private String Race;
+	private String Alignment;
+	private String Class;
+	private String Size;
+	private String armorClass;//dependent
+	private String savingThrows;//dependent-placeholder 
+	private String attackValues;//dependent-placeholder
+	
+	private int Level;
+	private int exp;
+	private int Gold;
+	private int age;
+	
+	
 	private int playerX;
 	private int playerY;
-	private int Health;
+	
+	private int Health;//dependent
+	private int Initiative;//dependent
 	private int Strength;
 	private int Constitution;
 	private int Dexterity;
@@ -13,11 +29,29 @@ public class Player {
 	private int Wisdom;
 	private int Charisma;
 	
+	private int initiativeModifier;//dependent
+	private int spellsPerDay;
+	private int actionPoints;
+	
+	//String[][][] board=new String[][][];
+	
+	private ArrayList<Item> Items = new ArrayList<Item>();
+	private ArrayList<Status> Statuses = new ArrayList<Status>();
+	
+	private InputCorrecting correct = new InputCorrecting();
 	
 	public Player(String x,int a,int b){
 		this.Name=x;
 		this.playerX=a;
 		this.playerY=b;
+	}
+	
+	public void initializePlayer(){
+		System.out.println("What is the players name?");
+		correct.correctFor("@","Please enter a name",false);
+		this.Name=correct.getCarryValue();
+		System.out.println("What is their race?");
+		//correct.correctFor("", errorCode, cancelReady)
 	}
 	
 	public String getPlayerName(){
@@ -50,10 +84,6 @@ public class Player {
 		}
 	}
 	
-	
-	public void setHealth(int x){
-		this.Health=x;
-	}
 	
 	public void setStrength(int x){
 		this.Strength=x;
