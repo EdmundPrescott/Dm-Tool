@@ -15,7 +15,7 @@ public class Main {
 		
 		//Classes
 		Player Player;
-		InputCorrecting InputCorrecting = new InputCorrecting();
+		Input Input = new Input();
 		
 		//Booleans
 		boolean Endgame=false;
@@ -45,12 +45,12 @@ public class Main {
 		
 		//initializes players
 		System.out.println("How many players are there?");	
-		totalPlayers=Integer.parseInt(InputCorrecting.correctFor(minPlayers,maxPlayers,"Please enter a number between 1 and 8",false));
+		totalPlayers=Integer.parseInt(Input.correctFor(minPlayers,maxPlayers,"Please enter a number between 1 and 8",false));
 		System.out.println("There are "+totalPlayers+" players awesome!");	
-		System.out.println("What are their names?");
+		//System.out.println("What are their names?");
 		for(int i=0;i<totalPlayers;i++){
-			System.out.println("Player "+InputCorrecting.correctFor("@","Please enter a name",false)+" was entered");
-			((Group) Groups.get(0)).addPlayer(new Player(InputCorrecting.getCarryValue(),spawnX,spawnY));
+			System.out.println("Player "+(i+1)+": ");
+			((Group) Groups.get(0)).addPlayer(new Player(spawnX,spawnY));
 		}
 		((Group) Groups.get(0)).printGroup();
 		
@@ -78,7 +78,7 @@ public class Main {
 		}
 		
 		if(userInput.equalsIgnoreCase("printExamineAbles")||userInput.equalsIgnoreCase("pex")){
-			InputCorrecting.printExamineAbles();
+			Input.printExamineAbles();
 		}
 		
 		if(userInput.equalsIgnoreCase("moveAll")||userInput.equalsIgnoreCase("ma")){
@@ -178,17 +178,17 @@ public class Main {
 		
 	}
 	
-	public static void addPlayer(ArrayList Groups,int chosenGroup,int spawnX,int spawnY){
+	public static void addPlayer(ArrayList Groups,int chosenGroup,int spawnX,int spawnY) throws FileNotFoundException{
 		for(int i=0;i<1;i++){
 		System.out.println("Which group will the player be added to?");
 		printGroups(Groups);
-		InputCorrecting.correctFor(1, Groups.size(),"?",true);
-		if(InputCorrecting.getCarryValue().equals("cancel")){break;}
-		chosenGroup=Integer.parseInt(InputCorrecting.getCarryValue());
+		Input.correctFor(1, Groups.size(),"?",true);
+		if(Input.getCarryValue().equals("cancel")){break;}
+		chosenGroup=Integer.parseInt(Input.getCarryValue());
 		System.out.println("The player will be added to group "+chosenGroup+" what is the players name?");
-		InputCorrecting.correctFor("@","Please enter a name",true);
-		if(InputCorrecting.getCarryValue().equals("cancel")){break;}
-		((Group) Groups.get(chosenGroup-1)).addPlayer(new Player(InputCorrecting.getCarryValue(),spawnX,spawnY));
+		Input.correctFor("@","Please enter a name",true);
+		if(Input.getCarryValue().equals("cancel")){break;}
+		((Group) Groups.get(chosenGroup-1)).addPlayer(new Player(spawnX,spawnY));
 		printGroups(Groups);
 		}
 	}
@@ -199,11 +199,11 @@ public class Main {
 			if(Groups.size()>1){
 			System.out.println("What group would you like to move?");
 			printGroups(Groups);
-			InputCorrecting.correctFor(0,Groups.size(),"?",true);
-			if(InputCorrecting.getCarryValue().equals("cancel")){
+			Input.correctFor(0,Groups.size(),"?",true);
+			if(Input.getCarryValue().equals("cancel")){
 				break;
 			}else{
-				chosenGroup=Integer.parseInt(InputCorrecting.getCarryValue())-1;
+				chosenGroup=Integer.parseInt(Input.getCarryValue())-1;
 			}
 			}
 			
@@ -213,8 +213,8 @@ public class Main {
 					+ "east(e)\n"
 					+ "south(s)\n");
 			
-			if(!InputCorrecting.correctFor("^","?",true).equals("cancel")){
-			((Group) Groups.get(chosenGroup)).moveAll(InputCorrecting.getCarryValue());
+			if(!Input.correctFor("^","?",true).equals("cancel")){
+			((Group) Groups.get(chosenGroup)).moveAll(Input.getCarryValue());
 			printPlayerLocations(Groups);
 			}
 			
@@ -223,8 +223,8 @@ public class Main {
 		
 	public static void examine(String entireFileText,int startIndex,int endIndex){
 		System.out.println("What do you want to examine?");
-		if(!InputCorrecting.correctFor("E","?",true).equals("cancel")){
-		startIndex=entireFileText.indexOf(InputCorrecting.getCarryValue()+":");
+		if(!Input.correctFor("E","?",true).equals("cancel")){
+		startIndex=entireFileText.indexOf(Input.getCarryValue()+":");
 		endIndex=entireFileText.substring(startIndex).indexOf("\\")+startIndex;
 		System.out.println(entireFileText.substring(startIndex,endIndex));
 		}
@@ -234,41 +234,41 @@ public class Main {
 		for(int i=0;i<1;i++){
 			System.out.println("Which group will be splitting?");
 			printGroups(Groups);
-			InputCorrecting.correctFor(1, Groups.size(),"?",true);
-			if(InputCorrecting.getCarryValue().equals("cancel")){break;}
-			chosenGroup=Integer.parseInt(InputCorrecting.getCarryValue())-1;
+			Input.correctFor(1, Groups.size(),"?",true);
+			if(Input.getCarryValue().equals("cancel")){break;}
+			chosenGroup=Integer.parseInt(Input.getCarryValue())-1;
 			
 			
 			if(Groups.size()<=1){
 				System.out.println("Create a new group for these players to move to?\n"
 						+ "Warning: You have to few groups and if you do not make a new group the group splitting will be cancelled");
-				if(InputCorrecting.correctFor("B","?",true).equals("true")){
+				if(Input.correctFor("B","?",true).equals("true")){
 					Groups.add(new Group(Groups.size()));
 				}else{
-					if(!InputCorrecting.getCarryValue().equals("cancel")){
+					if(!Input.getCarryValue().equals("cancel")){
 					System.out.println("There is no group to split to so the groups will not split");
 					}
 					break;
 				}
 			}else{
 				System.out.println("Would you like to create a new group?");
-				InputCorrecting.correctFor("B","?",true);
-				if(InputCorrecting.getCarryValue().equals("cancel")){break;}
-				if(InputCorrecting.getCarryValue().equals("true")){
+				Input.correctFor("B","?",true);
+				if(Input.getCarryValue().equals("cancel")){break;}
+				if(Input.getCarryValue().equals("true")){
 					Groups.add(new Group(Groups.size()));
 				}
 			}
 			
-			if(InputCorrecting.getCarryValue().equals("cancel")){break;}
+			if(Input.getCarryValue().equals("cancel")){break;}
 			System.out.println("Who will be leaving the group?");
-				InputCorrecting.clearCarryValue();
-				while(!InputCorrecting.getCarryValue().equals("false")){
+				Input.clearCarryValue();
+				while(!Input.getCarryValue().equals("false")){
 				((Group) Groups.get(chosenGroup)).printNumberedGroup();
-				InputCorrecting.correctFor(1,((Group) Groups.get(chosenGroup)).groupSize(),"?",true);
-				if(InputCorrecting.getCarryValue().equals("cancel")){break;}
-				chosenPlayers.add(((Group) Groups.get(chosenGroup)).getPlayer(Integer.parseInt(InputCorrecting.getCarryValue())-1));
+				Input.correctFor(1,((Group) Groups.get(chosenGroup)).groupSize(),"?",true);
+				if(Input.getCarryValue().equals("cancel")){break;}
+				chosenPlayers.add(((Group) Groups.get(chosenGroup)).getPlayer(Integer.parseInt(Input.getCarryValue())-1));
 				System.out.println("Want to continue splitting groups?");
-				InputCorrecting.correctFor("B","?",true);
+				Input.correctFor("B","?",true);
 				}
 				
 				splitGroupEnd(Groups,chosenGroup,chosenPlayers);
@@ -283,21 +283,21 @@ public class Main {
 			}
 			System.out.println(" will move too?");
 			printGroups(Groups);
-			InputCorrecting.correctFor(1, Groups.size(),"?",true);
-			if(InputCorrecting.getCarryValue().equals("cancel")){break;}
-			if(Integer.parseInt(InputCorrecting.getCarryValue())-1==chosenGroup){
+			Input.correctFor(1, Groups.size(),"?",true);
+			if(Input.getCarryValue().equals("cancel")){break;}
+			if(Integer.parseInt(Input.getCarryValue())-1==chosenGroup){
 				System.out.print("That's the group");
 				for(int j=0;j<chosenPlayers.size();j++){
 				System.out.print(" "+((Player) chosenPlayers.get(j)).getPlayerName());
 				}
 				System.out.println(" are currently in that group are you sure you want to move them to that group?");
-				InputCorrecting.correctFor("B","?",true);
-				if(InputCorrecting.getCarryValue().equals("cancel")){break;}
-				if(InputCorrecting.getCarryValue().equals("true")){System.out.println("The groups were not changed");break;}else{
+				Input.correctFor("B","?",true);
+				if(Input.getCarryValue().equals("cancel")){break;}
+				if(Input.getCarryValue().equals("true")){System.out.println("The groups were not changed");break;}else{
 					splitGroupEnd(Groups,chosenGroup,chosenPlayers);
 		}
 		}//Chosen Group picked bracket 
-			((Group) Groups.get(Integer.parseInt(InputCorrecting.getCarryValue())-1)).addPlayers(chosenPlayers);
+			((Group) Groups.get(Integer.parseInt(Input.getCarryValue())-1)).addPlayers(chosenPlayers);
 			((Group) Groups.get(chosenGroup)).removePlayers(chosenPlayers);
 			cleanGroups(Groups);
 			printGroups(Groups);

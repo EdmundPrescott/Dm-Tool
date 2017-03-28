@@ -1,62 +1,27 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class Reader {
 
+	private String[][] Races={{"Dwarve","Dwarves"},{"Elf","Elves"},{"Gnome","Gnomes"},{"Half-Elf","Half-elves"},
+			  				  {"Half-Orc","Half-orcs"},{"Halfling","Halflings"},{"Human","Humans"}}; 
+	private String[][] raceDataChunk = null;
+	private ArrayList<String> raceDataStream = new ArrayList<String>();
+	private boolean print=false;
+	
 	public Reader(){
 		
 	}
 	
-	public String[][] readRaces() throws FileNotFoundException{
-		File file = new File("Races.txt");
-		String[][] Races={{"Dwarve","Dwarves"},{"Elf","Elves"},{"Gnome","Gnomes"},{"Half-Elf","Half-elves"},
-						  {"Half-Orc","Half-orcs"},{"Halfling","Halflings"},{"Human","Humans"}}; 
-		String[][] raceDataChunk = null;
-		boolean print=false;
-		boolean traitData = true;
-		String Race;
+	public String[][] readRaces(String x) throws FileNotFoundException{
 		String fileName="Races.txt";
-		String startIndex = "";
-		ArrayList<String> raceDataStream = new ArrayList<String>();
-		
-		System.out.println("What race would you like to print?");
-		
-		Race=InputCorrecting.correctFor("R","?",false);
-		
-		System.out.println("Would you like only the traits?");
-		
-		InputCorrecting.correctFor("B","?",false);
-		
-		if(InputCorrecting.getCarryValue().equals("true")){
-			traitData=true;
-		}
-		
-		if(InputCorrecting.getCarryValue().equals("false")){
-			traitData=false;
-		}
-		
-		
-		if(traitData==true){
-			startIndex+=(Race+" Racial Traits");
-		}else{
-		for(int i=0;i<Races.length;i++){
-		if(Race.equals(Races[i][0])){
-			
-			startIndex=Races[i][1];
-		}
-		}
-		}
-		
+		String startIndex=(x+" Racial Traits");
+		boolean printChunk=false;
 		if(startIndex.equals("Dwarve Racial Traits")){
 			startIndex="Dwarf Racial Traits";
 		}
-		
-		//System.out.println(startIndex);
         // This will reference one line at a time
         String line = null;
         try {
@@ -65,7 +30,6 @@ public class Reader {
             // Always wrap FileReader in BufferedReader.
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             while((line = bufferedReader.readLine()) != null) {
-            	
             	
             	if(line.equals(startIndex)&&!line.equals("")){
             		print=true;
@@ -79,108 +43,57 @@ public class Reader {
             	}
             	
             	if(print==true){
-            		if(!line.equals("")){
+            		if(!line.equals("")&&line!=null){
             		raceDataStream.add(line);
             		}
-            		///System.out.println(line);
+            		//System.out.println(line);//very useful for bug fixing
             	}
             }//End of while loop i.e using file information 
             // Always close files.
             bufferedReader.close();         
         }///End of try bracket
-        catch(FileNotFoundException ex) {
-            System.out.println(
-                "Unable to open file '" + 
-                fileName + "'");                
-        }
-        catch(IOException ex) {
-            System.out.println(
-                "Error reading file '" 
-                + fileName + "'");                  
+        catch(FileNotFoundException ex){System.out.println("Unable to open file '" +fileName+ "'");}
+        catch(IOException ex){System.out.println("Error reading file '"+fileName+ "'");                  
             // Or we could just do this: 
             // ex.printStackTrace();
         }
         
-        //System.out.println("---------------------");
-        raceDataChunk= new String [2][raceDataStream.size()];
-		
+        raceDataChunk=new String[2][raceDataStream.size()];
+        int index=0;
         for(int i=0;i<raceDataStream.size();i++){
         	raceDataChunk[1][i]=raceDataStream.get(i);
-        	//System.out.println(raceDataChunk[1][i]);
-        } 
+        	try{
+                index=raceDataChunk[1][i].indexOf(":");
+                raceDataChunk[0][i]=raceDataChunk[1][i].substring(0,index);
+                raceDataChunk[1][i]=raceDataChunk[1][i].substring(index+2);
+                if(raceDataChunk[0][i].contains("Speed")){raceDataChunk[0][i]="Speed";}
+                if(raceDataChunk[0][i].equalsIgnoreCase("small")||raceDataChunk[0][i].equalsIgnoreCase("medium")||raceDataChunk[0][i].equalsIgnoreCase("large")){
+                	raceDataChunk[1][i]=raceDataChunk[0][i];raceDataChunk[0][i]="Size";
+                }
+                if(raceDataChunk[0][i].contains("+2")){
+                	raceDataChunk[1][i]=raceDataChunk[0][i];
+                	raceDataChunk[0][i]="Stat";
+                }
+                }catch(Exception e){
+                	raceDataChunk[0][i]="@";//Gets rid of [race] traits, could write code to not load/save this
+                }
+        }
         
-        
-        /*
-        int HasType;
+        if(printChunk==true){
         for(int i=0;i<raceDataChunk[0].length;i++){
-        	
-        	HasType=raceDataChunk[1][i].indexOf(":")-1;
-        	if(!HasType==null){
-        		raceDataChunk[0][1]=raceDataChunk[1][i].substring(0,HasType);
-        		raceDataChunk[1][i]=raceDataChunk[1][i].substring(HasType);
-        	}else{
-        		raceDataChunk[0][i]="null";
-        	}
-        }
-        
-        for(int i=0;i<raceDataChunk[0].length;i++){
-        	System.out.println(raceDataChunk[0][i]+" "+raceDataChunk[1][i]);
-        	
-        }
-        
-        */
-        int indexValueName=0;
-        for(int i=0;i<raceDataChunk[0].length;i++){ 
-        //System.out.println("Loop "+(i+1));
-        try{
-        indexValueName=raceDataChunk[1][i].indexOf(":");	
-        raceDataChunk[0][i]=raceDataChunk[1][i].substring(0,indexValueName);
-        raceDataChunk[1][i]=raceDataChunk[1][i].substring(indexValueName+2);
-        //System.out.println("Subbed over "+raceDataChunk[0][i]);
-        }catch(Exception e){
-        if(raceDataChunk[1][i].equals("")){
-        	//raceDataChunk[0][i]="---";
-        }else{
-        	raceDataChunk[0][i]="@";
-        }
-        
-        /*if(raceDataChunk[1][i].indexOf("Traits")>0){
-        	raceDataChunk[0][i]="Trait";
-        }*/
-        
-        }
-        
-        
-       }//end of for loop 
-        
-        
-        
-        
-        for(int i=0;i<raceDataChunk[0].length;i++){ 
         	for(int j=0;j<2;j++){
-        		//System.out.print("X:"+j+"Y:"+i+"{-}"+raceDataChunk[j][i]+"");
-        		System.out.println(raceDataChunk[j][i]);
-        		if(j==0){
-        			//System.out.print("---");
-        		}
+        	System.out.print(raceDataChunk[j][i]);
+        	if(j==0){
+        		System.out.print("<--->");
         	}
-        	
+        	}
         	System.out.println();
         }
+    	System.out.println();
+        }
         
-        
-        /*for(int i=0;i<Races[i][1].length();i++){
-        System.out.println(Races[i][0]);
-        }*/
-        
-        
-        
-        
+        raceDataStream= new ArrayList<String>();
         return raceDataChunk;
-	}
-	
-	public void readFile(){
-		
 	}
 	
 }

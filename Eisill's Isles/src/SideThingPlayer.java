@@ -1,28 +1,12 @@
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-public class Player {
-	//make a file with character details?
+public class SideThingPlayer {
+
 	private String Name;
-	private String Race;
-	private String Alignment;
-	private String Class;
-	private String Size;
-	private String armorClass;//dependent
-	private String savingThrows;//dependent-placeholder 
-	private String attackValues;//dependent-placeholder
-	
-	private int Level;
-	private int exp;
-	private int Gold;
-	private int age;
-	
 	
 	private int playerX;
 	private int playerY;
 	
-	private int Health;//dependent
-	private int Initiative;//dependent
 	private int Strength;
 	private int Constitution;
 	private int Dexterity;
@@ -30,55 +14,16 @@ public class Player {
 	private int Wisdom;
 	private int Charisma;
 	
-	private int initiativeModifier;//dependent
-	private int spellsPerDay;
-	private int actionPoints;
-	private int Speed;
+	private double actionPoints;
 	
-	//String[][][] board=new String[][][];
-	private String[][] Data = null;
-	private String[][] Stats = {{"Strength","0"},{"Constitution","0"},{"Dexterity","0"},
-								{"Intelligence","0"},{"Wisdom","0"},{"Charisma","0"}};
+	private ArrayList<Skill> Skills = new ArrayList<Skill>();
 	
-	private ArrayList<Item> Items = new ArrayList<Item>();
-	private ArrayList<Trait> Traits = new ArrayList<Trait>();
-	private ArrayList<Status> Statuses = new ArrayList<Status>();
-	
-	//private Input correct = new Input();
-	private Reader Reader = new Reader();
-	
-	public Player(int a,int b) throws FileNotFoundException{
+	public SideThingPlayer(int a,int b){
 		playerX=a;
 		playerY=b;
-		initializePlayer();
-	}
-	
-	public void test(){
-		System.out.println("Length: "+Stats.length);
-		for(int i=0;i<Stats.length;i++){
-			System.out.println(Stats[i][0]+" : "+Stats[i][1]);
-			System.out.println("------");
-		}
-	}
-	
-	public void initializePlayer() throws FileNotFoundException{
-		/*
 		setName();
-		setRace();
-		Data=Reader.readRaces(Race);
-		for(int i=0;i<Data[0].length;i++){
-		if(Data[0][i].equals("Size")){Size=Data[1][i];}else
-		if(Data[0][i].equals("Speed")){Speed=Integer.parseInt(extractNumber(Data[1][i]));}else
-		if(Data[0][i]!="@"){Traits.add(new Trait(Data[0][i],Data[1][i]));}
-		}
-		System.out.println("Do you want to skip setting stats?");
-		if(Input.correctFor("B","?",false).equals("false")){
-		setStatss();
-		}
-		printStats();
-		*/
+		setStats();
 		
-		setStats(0);
 	}
 	
 	public String getPlayerName(){
@@ -111,8 +56,7 @@ public class Player {
 		}
 	}
 	
-	
-	public void setStatss(){
+	public void setStats(){
 		setStrength();
 		setConstitution();
 		setDexterity();
@@ -121,29 +65,12 @@ public class Player {
 		setCharisma();
 	}
 	
-	public void setStats(int x){
-		int count=x;
-		System.out.println("What would you like to set "+Name+"'s "+Stats[count][0]+" to be?");
-		Stats[count][1]=Input.correctFor(0,20,"?",false);
-		System.out.println("Are you sure you want "+Name+"'s "+Stats[count][0]+" to be "+Stats[count][1]+"?");
-	}
-	
 	public void setName(){
 		System.out.println("What is the player's name?");
 		Name=Input.correctFor("@","Please enter a name",false);
 		System.out.println("Are you sure you want "+Name+" to be the players name?");
 		if(Input.correctFor("B","?",false).equals("false")){
 			setName();
-		}
-		
-	}
-	
-	public void setRace(){
-		System.out.println("What is "+Name+"'s race");
-		Race=Input.correctFor("R","?",false);
-		System.out.println("Are you sure you want "+Race+" to be the players race?");
-		if(Input.correctFor("B","?",false).equals("false")){
-			setRace();
 		}
 		
 	}
@@ -201,65 +128,11 @@ public class Player {
 	public void setCharisma(){
 		System.out.println("What is "+Name+"'s charisma stat?");
 		Charisma=Integer.parseInt(Input.correctFor(0,20,"Please enter a stat",false));
-		System.out.println("Are you sure you want "+Name+"'s charisma to be "+Charisma+"?");
+		System.out.println("Are you sure you want charisma to be "+Charisma+"?");
 		if(Input.correctFor("B","?",false).equals("false")){
 			setCharisma();
 		}
 		
-	}
-	
-	public int getHealth(){
-		return Health;
-	}
-	
-	public int getStrength(){
-		return Strength;
-	}
-	
-	public int getConstitution(){
-		return Constitution;
-	}
-	
-	public int getDexterity(){
-		return Dexterity;
-	}
-	
-	public int getIntelligence(){
-		return Intelligence;
-	}
-	
-	public int getWisdom(){
-		return Wisdom;
-	}
-	
-	public int getCharisma(){
-		return Charisma;
-	}
-	
-	public int getSpeed(){
-		return Speed;
-	}
-	
-	public String getSize(){
-		return Size;
-	}
-	
-	public void printStats(){
-		System.out.println("Name: "+Name);
-		System.out.println("Race: "+Race);
-		System.out.println("Strength: "+Strength);
-		System.out.println("Constitution: "+Constitution);
-		System.out.println("Dexterity: "+Dexterity);
-		System.out.println("Intelligence: "+Intelligence);
-		System.out.println("Wisdom: "+Wisdom);
-		System.out.println("Charisma: "+Charisma);
-		System.out.println("Size: "+Size);
-		System.out.println("Speed: "+Speed);
-		System.out.println("Traits:");
-		for(int i=0;i<Traits.size();i++){
-			System.out.println(Traits.get(i).getTraitName()+": ");
-			System.out.println("    "+Traits.get(i).getTraitEffect());
-		}
 	}
 	
 	public void editStats(){
@@ -267,7 +140,7 @@ public class Player {
 		Input.correctFor("B","?",false);
 		
 		if(Input.getCarryValue().equals("true")){
-			setStatss();
+			setStats();
 			
 		}
 		
@@ -297,25 +170,6 @@ public class Player {
 			
 			
 		}
-	}
-	
-	public static String extractNumber(String str) {                
-
-	    if(str == null || str.isEmpty()) return "";
-
-	    StringBuilder sb = new StringBuilder();
-	    boolean found = false;
-	    for(char c : str.toCharArray()){
-	        if(Character.isDigit(c)){
-	            sb.append(c);
-	            found = true;
-	        } else if(found){
-	            // If we already found a digit before and this char is not a digit, stop looping
-	            break;                
-	        }
-	    }
-
-	    return sb.toString();
 	}
 	
 }
