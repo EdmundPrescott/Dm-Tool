@@ -50,7 +50,7 @@ public class Player {
 	public Player(int a,int b) throws FileNotFoundException{
 		playerX=a;
 		playerY=b;
-		initializePlayer();
+		//initializePlayer();
 	}
 	
 	public void test(){
@@ -121,11 +121,14 @@ public class Player {
 		setCharisma();
 	}
 	
-	public void setStats(int x){
-		int count=x;
+	public void setStats(int zero){
+		int count=zero;
 		System.out.println("What would you like to set "+Name+"'s "+Stats[count][0]+" to be?");
 		Stats[count][1]=Input.correctFor(0,20,"?",false);
 		System.out.println("Are you sure you want "+Name+"'s "+Stats[count][0]+" to be "+Stats[count][1]+"?");
+		if(Input.correctFor("B","?",false).equals("true")){
+			if((count+1)<Stats.length){setStats(count+1);}
+		}else{setStats(count);}
 	}
 	
 	public void setName(){

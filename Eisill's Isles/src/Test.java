@@ -12,6 +12,8 @@ public class Test {
 		int four=4;
 		Reader read = new Reader();
 		Player Player = new Player(0,0);
+		
+		Player.setStats(0);
 		Player.test();
 		boolean testing=true;
 		//while(testing==true){read.readRaces();}
