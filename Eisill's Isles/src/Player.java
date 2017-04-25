@@ -7,31 +7,15 @@ public class Player {
 	private String Race;
 	private String Alignment;
 	private String Class;
-	private String Size;
-	private String armorClass;//dependent
-	private String savingThrows;//dependent-placeholder 
-	private String attackValues;//dependent-placeholder
 	
 	private int Level;
 	private int exp;
 	private int Gold;
-	private int age;
-	
 	
 	private int playerX;
 	private int playerY;
 	
-	private int Health;//dependent
-	private int Initiative;//dependent
-	private int Strength;
-	private int Constitution;
-	private int Dexterity;
-	private int Intelligence;
-	private int Wisdom;
-	private int Charisma;
-	
 	private int initiativeModifier;//dependent
-	private int spellsPerDay;
 	private int actionPoints;
 	private int Speed;
 	
@@ -50,35 +34,19 @@ public class Player {
 	public Player(int a,int b) throws FileNotFoundException{
 		playerX=a;
 		playerY=b;
-		//initializePlayer();
-	}
-	
-	public void test(){
-		System.out.println("Length: "+Stats.length);
-		for(int i=0;i<Stats.length;i++){
-			System.out.println(Stats[i][0]+" : "+Stats[i][1]);
-			System.out.println("------");
-		}
+		initializePlayer();
 	}
 	
 	public void initializePlayer() throws FileNotFoundException{
-		/*
 		setName();
 		setRace();
-		Data=Reader.readRaces(Race);
-		for(int i=0;i<Data[0].length;i++){
-		if(Data[0][i].equals("Size")){Size=Data[1][i];}else
-		if(Data[0][i].equals("Speed")){Speed=Integer.parseInt(extractNumber(Data[1][i]));}else
-		if(Data[0][i]!="@"){Traits.add(new Trait(Data[0][i],Data[1][i]));}
-		}
+		
 		System.out.println("Do you want to skip setting stats?");
 		if(Input.correctFor("B","?",false).equals("false")){
-		setStatss();
+			setStats(0);
 		}
-		printStats();
-		*/
 		
-		setStats(0);
+		printStats();
 	}
 	
 	public String getPlayerName(){
@@ -111,16 +79,6 @@ public class Player {
 		}
 	}
 	
-	
-	public void setStatss(){
-		setStrength();
-		setConstitution();
-		setDexterity();
-		setIntelligence();
-		setWisdom();
-		setCharisma();
-	}
-	
 	public void setStats(int zero){
 		int count=zero;
 		System.out.println("What would you like to set "+Name+"'s "+Stats[count][0]+" to be?");
@@ -151,155 +109,59 @@ public class Player {
 		
 	}
 	
-	public void setStrength(){
-		System.out.println("What is "+Name+"'s strength stat?");
-		Strength=Integer.parseInt(Input.correctFor(0,20,"Please enter a stat",false));
-		System.out.println("Are you sure you want "+Name+"'s strength to be "+Strength+"?");
-		if(Input.correctFor("B","?",false).equals("false")){
-			setStrength();
+	@SuppressWarnings("null")
+	public int getStat(String statName){
+		for(int i=0;i<Stats.length;i++){
+			if(Stats[i][0].equalsIgnoreCase(statName)){
+				return Integer.parseInt(Stats[i][0]);
+			}
 		}
-		
-	}
-	
-	public void setConstitution(){
-		System.out.println("What is "+Name+"'s constitution stat?");
-		Constitution=Integer.parseInt(Input.correctFor(0,20,"Please enter a stat",false));
-		System.out.println("Are you sure you want "+Name+"'s constitution to be "+Constitution+"?");
-		if(Input.correctFor("B","?",false).equals("false")){
-			setConstitution();
-		}
-		
-	}
-	
-	public void setDexterity(){
-		System.out.println("What is "+Name+"'s dexterity stat?");
-		Dexterity=Integer.parseInt(Input.correctFor(0,20,"Please enter a stat",false));
-		System.out.println("Are you sure you want "+Name+"'s dexterity to be "+Dexterity+"?");
-		if(Input.correctFor("B","?",false).equals("false")){
-			setDexterity();
-		}
-		
-	}
-	
-	public void setIntelligence(){
-		System.out.println("What is "+Name+"'s intelligence stat?");
-		Intelligence=Integer.parseInt(Input.correctFor(0,20,"Please enter a stat",false));
-		System.out.println("Are you sure you want "+Name+"'s intelligence to be "+Intelligence+"?");
-		if(Input.correctFor("B","?",false).equals("false")){
-			setIntelligence();
-		}
-		
-	}
-	
-	public void setWisdom(){
-		System.out.println("What is "+Name+"'s wisdom stat?");
-		Wisdom=Integer.parseInt(Input.correctFor(0,20,"Please enter a stat",false));
-		System.out.println("Are you sure you want "+Name+"'s wisdom to be "+Wisdom+"?");
-		if(Input.correctFor("B","?",false).equals("false")){
-			setWisdom();
-		}
-		
-	}
-	
-	public void setCharisma(){
-		System.out.println("What is "+Name+"'s charisma stat?");
-		Charisma=Integer.parseInt(Input.correctFor(0,20,"Please enter a stat",false));
-		System.out.println("Are you sure you want "+Name+"'s charisma to be "+Charisma+"?");
-		if(Input.correctFor("B","?",false).equals("false")){
-			setCharisma();
-		}
-		
-	}
-	
-	public int getHealth(){
-		return Health;
-	}
-	
-	public int getStrength(){
-		return Strength;
-	}
-	
-	public int getConstitution(){
-		return Constitution;
-	}
-	
-	public int getDexterity(){
-		return Dexterity;
-	}
-	
-	public int getIntelligence(){
-		return Intelligence;
-	}
-	
-	public int getWisdom(){
-		return Wisdom;
-	}
-	
-	public int getCharisma(){
-		return Charisma;
+		return (Integer)null;
 	}
 	
 	public int getSpeed(){
 		return Speed;
 	}
 	
-	public String getSize(){
-		return Size;
-	}
-	
 	public void printStats(){
-		System.out.println("Name: "+Name);
-		System.out.println("Race: "+Race);
-		System.out.println("Strength: "+Strength);
-		System.out.println("Constitution: "+Constitution);
-		System.out.println("Dexterity: "+Dexterity);
-		System.out.println("Intelligence: "+Intelligence);
-		System.out.println("Wisdom: "+Wisdom);
-		System.out.println("Charisma: "+Charisma);
-		System.out.println("Size: "+Size);
-		System.out.println("Speed: "+Speed);
-		System.out.println("Traits:");
+		for(int i=0;i<Stats.length;i++){
+			System.out.println(Stats[i][0]+" : "+Stats[i][1]);
+		}
 		for(int i=0;i<Traits.size();i++){
 			System.out.println(Traits.get(i).getTraitName()+": ");
 			System.out.println("    "+Traits.get(i).getTraitEffect());
 		}
 	}
 	
+	public void printSixStats(){
+		for(int i=0;i<Stats.length;i++){
+			System.out.println(Stats[i][0]+" : "+Stats[i][1]);
+		}
+	}
+	
 	public void editStats(){
+		
 		System.out.println("Would you like to edit all stats?");
-		Input.correctFor("B","?",false);
-		
-		if(Input.getCarryValue().equals("true")){
-			setStatss();
+		if(Input.correctFor("B","?",false).equals("true")){
+			setStats(0);
 			
+		}else{
+			while(!Input.getCarryValue().equals("false")){
+			editStats();
+			System.out.println("Are you done editing single stats?");
+			Input.correctFor("B","?",false);
+			}
 		}
-		
-		if(Input.getCarryValue().equals("false")){
-			System.out.println("What stat would you like to edit?");
-			while(!Input.getCarryValue().equals("cancel")||!Input.getCarryValue().equals("false"))
-			Input.correctFor("@","?",true);
-			if(Input.getCarryValue().equalsIgnoreCase("Strength")||Input.getCarryValue().equalsIgnoreCase("Str")){
-				setStrength();
-			}
-			if(Input.getCarryValue().equalsIgnoreCase("Constitution")||Input.getCarryValue().equalsIgnoreCase("Con")){
-				setConstitution();
-			}
-			if(Input.getCarryValue().equalsIgnoreCase("Dexterity")||Input.getCarryValue().equalsIgnoreCase("Dex")){
-				setDexterity();
-			}
-			if(Input.getCarryValue().equalsIgnoreCase("Intelligence")||Input.getCarryValue().equalsIgnoreCase("Int")){
-				setIntelligence();
-			}
-			if(Input.getCarryValue().equalsIgnoreCase("Wisdom")||Input.getCarryValue().equalsIgnoreCase("Wis")){
-				setWisdom();
-			}
-			if(Input.getCarryValue().equalsIgnoreCase("Charisma")||Input.getCarryValue().equalsIgnoreCase("Cha")){
-				setCharisma();
-			}
-			
-			
-			
-		}
+	}
+	
+	public void editStat(){
+		int chosen=0;
+		System.out.println("Which stat would you like to edit?");
+		printSixStats();
+		chosen=Integer.parseInt(Input.correctFor(1,Stats.length,"?",false))-1;
+		System.out.println("What would you like to set "+Name+"'s "+Stats[chosen][0]+" to?");
+		Stats[chosen][1]=Input.correctFor(0,20,"?",false);
+		System.out.println(Name+"'s "+Stats[chosen][0]+" is now "+Stats[chosen][1]);
 	}
 	
 	public static String extractNumber(String str) {                

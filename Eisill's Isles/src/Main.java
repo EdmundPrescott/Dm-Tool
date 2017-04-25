@@ -19,7 +19,6 @@ public class Main {
 		
 		//Booleans
 		boolean Endgame=false;
-		boolean badValue=true;
 		
 		//Integers
 		int startIndex=0;
@@ -115,6 +114,16 @@ public class Main {
 
 	public static void populateBoard(){
 		System.out.println(" sumo wresttler edmund, this is an easter egg");
+	}
+	
+	public static void editPlayerStats(ArrayList Groups){
+		int count=0;
+		printPlayerNames(Groups);
+		System.out.println("Whose stats would you like to edit?");
+		Input.correctFor("@","?",false);
+		while(!Input.getCarryValue().equals("cancel")){
+			
+		}
 	}
 	
 	public static void cleanGroups(ArrayList Groups){

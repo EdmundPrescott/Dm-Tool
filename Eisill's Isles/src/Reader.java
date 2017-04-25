@@ -72,7 +72,7 @@ public class Reader {
                 }
                 if(raceDataChunk[0][i].contains("+2")){
                 	raceDataChunk[1][i]=raceDataChunk[0][i];
-                	raceDataChunk[0][i]="Stat";
+                	raceDataChunk[0][i]="Stats";
                 }
                 }catch(Exception e){
                 	raceDataChunk[0][i]="@";//Gets rid of [race] traits, could write code to not load/save this
