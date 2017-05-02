@@ -320,31 +320,44 @@ if(typeCheck.equals("B")){
 		return false;
 	}
 	
-	public static String correctFor(int a,int b,String errorCode,boolean cancelReady){
-        	while(badValue==true){
-        		userInput=console.next();
-        		if(cancelReady==true&&userInput.equalsIgnoreCase("cancel")){
-        			carryValue="cancel";
-        			System.out.println("Cancelled");
+	public static String correctFor(int a,int b,String errorCode,String playerMessage,boolean cancelReady,boolean askTwice){
+		if(!playerMessage.equals("?")){
+			System.out.println(playerMessage);
+		}else{
+			System.out.println("Please enter a number");
+		}
+		while(badValue==true){
+			userInput=console.nextLine();
+    		if(!userInput.equals("")){
+			if(cancelReady==true&&userInput.equalsIgnoreCase("cancel")){
+				carryValue="cancel";
+				System.out.println("Cancelled");
+				return userInput;
+			}
+			try{
+				if(Integer.parseInt(userInput)>=a&&Integer.parseInt(userInput)<=b){
+				if(askTwice==true){
+					heldInput=userInput;
+					if(askTwice()==true){
+						carryValue=heldInput;
+						return heldInput;
+					}else{
+						System.out.println("Please enter a number");
+					}
+				}else{
+					carryValue=userInput;
 					return userInput;
 				}
-				try{
-					if(Integer.parseInt(userInput)>=a&&Integer.parseInt(userInput)<=b){
-						carryValue=userInput;
-						return userInput;
-					}else{
-						System.out.println("That number isn't between "+a+" and "+b);
-					}
-				}catch(Exception e){
-					if(errorCode.equals("?")){
-						System.out.println("Please enter a number");
-						}else{
-							System.out.println(errorCode);
-						}
-					
 				}
+			}catch(Exception e){
+				if(errorCode.equals("?")){
+					System.out.println("Please do not enter letters");
+					}else{
+						System.out.println(errorCode);
+					}
 			}
-        	badValue=false;
+    	}//End of next line catch
+		}//End of while loop
         	return "If you're seeing this you've done something wrong";
 	}
 	
